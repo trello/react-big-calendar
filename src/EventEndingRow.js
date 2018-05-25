@@ -3,7 +3,6 @@ import React from 'react'
 import EventRowMixin from './EventRowMixin'
 import { eventLevels } from './utils/eventLevels'
 import message from './utils/messages'
-import range from 'lodash/range'
 
 let isSegmentInSlot = (seg, slot) => seg.left <= slot && seg.right >= slot
 let eventsInSlot = (segments, slot) =>
@@ -32,7 +31,7 @@ class EventEndingRow extends React.Component {
     while (current <= slotCount) {
       let key = '_lvl_' + current
 
-      let { event, left, right, span } =
+      let { event, left } =
         rowSegments.filter(seg => isSegmentInSlot(seg, current))[0] || {} //eslint-disable-line
 
       if (!event) {
@@ -42,44 +41,22 @@ class EventEndingRow extends React.Component {
 
       let gap = Math.max(0, left - lastEnd)
 
-      if (this.canRenderSlotEvent(left, span)) {
-        let content = EventRowMixin.renderEvent(this.props, event)
-
-        if (gap) {
-          row.push(EventRowMixin.renderSpan(slotCount, gap, key + '_gap'))
-        }
-
-        row.push(EventRowMixin.renderSpan(slotCount, span, key, content))
-
-        lastEnd = current = right + 1
-      } else {
-        if (gap) {
-          row.push(EventRowMixin.renderSpan(slotCount, gap, key + '_gap'))
-        }
-
-        row.push(
-          EventRowMixin.renderSpan(
-            slotCount,
-            1,
-            key,
-            this.renderShowMore(segments, current)
-          )
-        )
-        lastEnd = current = current + 1
+      if (gap) {
+        row.push(EventRowMixin.renderSpan(slotCount, gap, key + '_gap'))
       }
+
+      row.push(
+        EventRowMixin.renderSpan(
+          slotCount,
+          1,
+          key,
+          this.renderShowMore(segments, current)
+        )
+      )
+      lastEnd = current = current + 1
     }
 
     return <div className="rbc-row">{row}</div>
-  }
-
-  canRenderSlotEvent(slot, span) {
-    let { segments } = this.props
-
-    return range(slot, slot + span).every(s => {
-      let count = eventsInSlot(segments, s)
-
-      return count === 1
-    })
   }
 
   renderShowMore(segments, slot) {
