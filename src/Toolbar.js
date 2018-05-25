@@ -20,33 +20,66 @@ class Toolbar extends React.Component {
       <div className="rbc-toolbar">
         <span className="rbc-btn-group">
           <button
-            type="button"
-            onClick={this.navigate.bind(null, navigate.PREVIOUS)}
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24">
-              <path
-                d="M8.414 11.5H18a1 1 0 0 1 0 2H8.414l3.793 3.793a1 1 0 0 1-1.414 1.414l-5.5-5.5a1 1 0 0 1 0-1.414l5.5-5.5a1 1 0 0 1 1.414 1.414L8.414 11.5z"
-                fill="currentColor"
-                fillRule="evenodd"
-              />
-            </svg>
-          </button>
-          <button
+            className="rbc-btn-nav rbc-btn-today"
             type="button"
             onClick={this.navigate.bind(null, navigate.TODAY)}
           >
             {messages.today}
           </button>
           <button
+            className="rbc-btn-nav rbc-btn-nav-prev"
+            type="button"
+            onClick={this.navigate.bind(null, navigate.PREVIOUS)}
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24">
+              <g
+                id="left-caret"
+                stroke="none"
+                strokeWidth="1"
+                fill="none"
+                fillRule="evenodd"
+              >
+                <g
+                  id="caret"
+                  transform="translate(11.000000, 12.000000) scale(-1, 1) translate(-11.000000, -12.000000) translate(6.000000, 4.000000)"
+                  fill="#959DA1"
+                  fillRule="nonzero"
+                >
+                  <path
+                    d="M4.9988896,9.8053477 L-1.30004008,3.7904958 C-1.68950573,3.4185948 -2.32029347,3.41922717 -2.70894393,3.79190824 C-3.09759439,4.16458931 -3.09693354,4.76819234 -2.70746788,5.14009334 L5.0000426,12.5 L12.7080451,5.12755845 C13.0971924,4.75535237 13.0973367,4.15174903 12.7083674,3.77937264 C12.3193981,3.40699625 11.6886101,3.40685818 11.2994628,3.77906426 L4.9988896,9.8053477 Z"
+                    id="Path-3"
+                    transform="translate(5.000000, 8.000000) rotate(-90.000000) translate(-5.000000, -8.000000) "
+                  />
+                </g>
+              </g>
+            </svg>
+          </button>
+          <button
+            className="rbc-btn-nav rbc-btn-nav-next"
             type="button"
             onClick={this.navigate.bind(null, navigate.NEXT)}
           >
             <svg width="24" height="24" viewBox="0 0 24 24">
-              <path
-                d="M11.793 5.793a.999.999 0 0 0 0 1.414L15.586 11H6a1 1 0 0 0 0 2h9.586l-3.793 3.793a.999.999 0 0 0 0 1.414c.39.39 1.024.39 1.415 0l5.499-5.5a.997.997 0 0 0 .293-.679v-.057a.996.996 0 0 0-.293-.678l-5.499-5.5a1 1 0 0 0-1.415 0z"
-                fill="currentColor"
+              <g
+                id="right-caret"
+                stroke="none"
+                strokeWidth="1"
+                fill="none"
                 fillRule="evenodd"
-              />
+              >
+                <g
+                  id="caret"
+                  transform="translate(8.000000, 4.000000)"
+                  fill="#959DA1"
+                  fillRule="nonzero"
+                >
+                  <path
+                    d="M4.9988896,9.8053477 L-1.30004008,3.7904958 C-1.68950573,3.4185948 -2.32029347,3.41922717 -2.70894393,3.79190824 C-3.09759439,4.16458931 -3.09693354,4.76819234 -2.70746788,5.14009334 L5.0000426,12.5 L12.7080451,5.12755845 C13.0971924,4.75535237 13.0973367,4.15174903 12.7083674,3.77937264 C12.3193981,3.40699625 11.6886101,3.40685818 11.2994628,3.77906426 L4.9988896,9.8053477 Z"
+                    id="Path-3"
+                    transform="translate(5.000000, 8.000000) rotate(-90.000000) translate(-5.000000, -8.000000) "
+                  />
+                </g>
+              </g>
             </svg>
           </button>
         </span>
