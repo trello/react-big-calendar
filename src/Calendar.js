@@ -291,6 +291,14 @@ class Calendar extends React.Component {
     onSelectSlot: PropTypes.func,
 
     /**
+     * Callback fired when show more link is clicked on the month view
+     *
+     * ```js
+     * (events=[event: Object], selectedDate: Date) => void
+     * ```
+     */
+    onShowMore: PropTypes.func,
+    /**
      * Callback fired when a calendar event is selected.
      *
      * ```js
@@ -822,7 +830,7 @@ class Calendar extends React.Component {
           onSelectEvent={this.handleSelectEvent}
           onDoubleClickEvent={this.handleDoubleClickEvent}
           onSelectSlot={this.handleSelectSlot}
-          onShowMore={this._showMore}
+          onShowMore={this.handleShowMore}
         />
       </div>
     )
@@ -873,6 +881,10 @@ class Calendar extends React.Component {
 
   handleSelectSlot = slotInfo => {
     notify(this.props.onSelectSlot, slotInfo)
+  }
+
+  handleShowMore = (...args) => {
+    notify(this.props.onShowMore, args)
   }
 
   handleDrillDown = (date, view) => {
