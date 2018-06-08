@@ -60,6 +60,7 @@ let propTypes = {
   onDoubleClickEvent: PropTypes.func,
   onShowMore: PropTypes.func,
   onDrillDown: PropTypes.func,
+  onHideOverlay: PropTypes.func,
   getDrilldownView: PropTypes.func.isRequired,
 
   dateFormat,
@@ -121,8 +122,9 @@ class MonthView extends React.Component {
     )
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     if (this.state.needLimitMeasure) this.measureRowLimit(this.props)
+    if (this.props.date !== prevProps.date) this.hideOverlay()
   }
 
   componentWillUnmount() {
@@ -262,6 +264,11 @@ class MonthView extends React.Component {
     ))
   }
 
+  hideOverlay() {
+    this.setState({ overlay: null })
+    this.props.onHideOverlay()
+  }
+
   renderOverlay() {
     let overlay = (this.state && this.state.overlay) || {}
     let { components } = this.props
@@ -272,7 +279,7 @@ class MonthView extends React.Component {
         placement="bottom"
         container={this}
         show={!!overlay.position}
-        onHide={() => this.setState({ overlay: null })}
+        onHide={this.hideOverlay.bind(this)}
       >
         <Popup
           {...this.props}
@@ -284,6 +291,7 @@ class MonthView extends React.Component {
           slotEnd={overlay.end}
           onSelect={this.handleSelectEvent}
           onDoubleClick={this.handleDoubleClickEvent}
+          hideOverlay={this.hideOverlay.bind(this)}
         />
       </Overlay>
     )

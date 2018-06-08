@@ -18,6 +18,7 @@ let propTypes = {
   allDayAccessor: accessor,
   startAccessor: accessor,
   endAccessor: accessor,
+  hideOverlay: PropTypes.func,
 
   eventComponent: elementType,
   eventWrapperComponent: elementType.isRequired,
@@ -42,6 +43,7 @@ class EventCell extends React.Component {
       slotEnd,
       onSelect,
       onDoubleClick,
+      hideOverlay,
       eventComponent: Event,
       eventWrapperComponent: EventWrapper,
       ...props
@@ -72,6 +74,7 @@ class EventCell extends React.Component {
       allDay,
       continuesPrior,
       continuesAfter,
+      hideOverlay,
     }
 
     return (

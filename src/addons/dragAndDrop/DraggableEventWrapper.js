@@ -21,6 +21,7 @@ class DraggableEventWrapper extends React.Component {
     connectLeftDragSource: PropTypes.func.isRequired,
     connectRightDragPreview: PropTypes.func.isRequired,
     connectRightDragSource: PropTypes.func.isRequired,
+    hideOverlay: PropTypes.func,
 
     allDay: PropTypes.bool,
     isRow: PropTypes.bool,
@@ -57,6 +58,7 @@ class DraggableEventWrapper extends React.Component {
       isRow,
       continuesPrior,
       continuesAfter,
+      hideOverlay,
     } = this.props
 
     let StartAnchor = null,
@@ -65,15 +67,15 @@ class DraggableEventWrapper extends React.Component {
     /*
      * The resizability of events depends on whether they are
      * allDay events and how they are displayed.
-     *  
+     *
      * 1. If the event is being shown in an event row (because
      * it is an allDay event shown in the header row or because as
      * in month view the view is showing all events as rows) then we
      * allow east-west resizing.
-     * 
+     *
      * 2. Otherwise the event is being displayed
      * normally, we can drag it north-south to resize the times.
-     * 
+     *
      * See `DropWrappers` for handling of the drop of such events.
      *
      * Notwithstanding the above, we never show drag anchors for
@@ -123,6 +125,11 @@ class DraggableEventWrapper extends React.Component {
       ),
       children: childrenWithAnchors, // replace original event child with anchor-embellished child
     })
+
+    if (isDragging && hideOverlay) {
+      hideOverlay()
+      event.onMouseLeave && event.onMouseLeave() // to prevent remove any open hovers cards
+    }
 
     return (
       <EventWrapper event={event} allDay={allDay}>

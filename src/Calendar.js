@@ -253,6 +253,11 @@ class Calendar extends React.Component {
     onDrillDown: PropTypes.func,
 
     /**
+     * Callback fired when the popup overlay is hidden on the month view
+     */
+    onHideOverlay: PropTypes.func,
+
+    /**
      * Callback fired when the visible date range changes. Returns an Array of dates
      * or an object with start and end dates for BUILTIN views.
      *
@@ -771,6 +776,7 @@ class Calendar extends React.Component {
       date: current,
       getNow,
       length,
+      onHideOverlay,
       ...props
     } = this.props
 
@@ -831,6 +837,7 @@ class Calendar extends React.Component {
           onDoubleClickEvent={this.handleDoubleClickEvent}
           onSelectSlot={this.handleSelectSlot}
           onShowMore={this.handleShowMore}
+          onHideOverlay={onHideOverlay}
         />
       </div>
     )
