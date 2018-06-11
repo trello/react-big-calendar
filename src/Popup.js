@@ -23,6 +23,7 @@ const propTypes = {
   eventComponent: elementType,
   eventWrapperComponent: elementType,
   dayHeaderFormat: dateFormat,
+  hideOverlay: PropTypes.func,
 }
 class Popup extends React.Component {
   componentDidMount() {
@@ -81,6 +82,7 @@ class Popup extends React.Component {
             eventComponent={eventComponent}
             eventWrapperComponent={eventWrapperComponent}
             selected={isSelected(event, selected)}
+            hideOverlay={this.props.hideOverlay}
           />
         ))}
       </div>
