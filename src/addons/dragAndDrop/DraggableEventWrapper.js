@@ -43,6 +43,14 @@ class DraggableEventWrapper extends React.Component {
     this.props.connectRightDragPreview(emptyImage, previewOptions)
   }
 
+  shouldComponentUpdate(nextProp) {
+    return (
+      this.props.isDragging !== nextProp.isDragging ||
+      !nextProp.isDragging ||
+      this.props.isResizing !== nextProp.isResizing
+    )
+  }
+
   render() {
     let {
       connectDragSource,
@@ -126,10 +134,7 @@ class DraggableEventWrapper extends React.Component {
       children: childrenWithAnchors, // replace original event child with anchor-embellished child
     })
 
-    if (isDragging && hideOverlay) {
-      hideOverlay()
-      event.onMouseLeave && event.onMouseLeave() // to prevent remove any open hovers cards
-    }
+    if (isDragging) hideOverlay()
 
     return (
       <EventWrapper event={event} allDay={allDay}>

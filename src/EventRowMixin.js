@@ -26,6 +26,7 @@ export default {
     eventWrapperComponent: elementType.isRequired,
     onSelect: PropTypes.func,
     onDoubleClick: PropTypes.func,
+    hideOverlay: PropTypes.func,
   },
 
   defaultProps: {
@@ -50,6 +51,7 @@ export default {
       eventWrapperComponent,
       onSelect,
       onDoubleClick,
+      hideOverlay,
     } = props
 
     return (
@@ -69,6 +71,7 @@ export default {
         slotStart={start}
         slotEnd={end}
         eventComponent={eventComponent}
+        hideOverlay={hideOverlay}
       />
     )
   },

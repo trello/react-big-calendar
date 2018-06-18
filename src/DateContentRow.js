@@ -43,6 +43,7 @@ const propTypes = {
   dateCellWrapperComponent: elementType,
   minRows: PropTypes.number.isRequired,
   maxRows: PropTypes.number.isRequired,
+  hideOverlay: PropTypes.func,
 }
 
 const defaultProps = {
@@ -149,6 +150,7 @@ class DateContentRow extends React.Component {
       onSelectStart,
       onSelectEnd,
       longPressThreshold,
+      hideOverlay,
       ...props
     } = this.props
 
@@ -207,6 +209,7 @@ class DateContentRow extends React.Component {
               eventWrapperComponent={eventWrapperComponent}
               startAccessor={startAccessor}
               endAccessor={endAccessor}
+              hideOverlay={hideOverlay}
             />
           ))}
           {!!extra.length && (

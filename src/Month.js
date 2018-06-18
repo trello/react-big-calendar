@@ -208,6 +208,7 @@ class MonthView extends React.Component {
         eventWrapperComponent={components.eventWrapper}
         dateCellWrapperComponent={components.dateCellWrapper}
         longPressThreshold={longPressThreshold}
+        hideOverlay={this.hideOverlay.bind(this)}
       />
     )
   }
@@ -265,8 +266,11 @@ class MonthView extends React.Component {
   }
 
   hideOverlay() {
-    this.setState({ overlay: null })
-    this.props.onHideOverlay()
+    // These updates have to be deferred because they're called in a render
+    setTimeout(() => {
+      this.setState({ overlay: null })
+      this.props.onHideOverlay()
+    }, 0)
   }
 
   renderOverlay() {

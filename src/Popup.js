@@ -52,6 +52,7 @@ class Popup extends React.Component {
       selected,
       eventComponent,
       eventWrapperComponent,
+      hideOverlay,
       ...props
     } = this.props
 
@@ -82,7 +83,7 @@ class Popup extends React.Component {
             eventComponent={eventComponent}
             eventWrapperComponent={eventWrapperComponent}
             selected={isSelected(event, selected)}
-            hideOverlay={this.props.hideOverlay}
+            hideOverlay={hideOverlay}
           />
         ))}
       </div>
