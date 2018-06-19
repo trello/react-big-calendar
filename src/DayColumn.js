@@ -50,6 +50,7 @@ class DayColumn extends React.Component {
     onSelectSlot: PropTypes.func.isRequired,
     onSelectEvent: PropTypes.func.isRequired,
     onDoubleClickEvent: PropTypes.func.isRequired,
+    onHideOverlay: PropTypes.func,
 
     className: PropTypes.string,
     dragThroughEvents: PropTypes.bool,
@@ -167,6 +168,7 @@ class DayColumn extends React.Component {
       startAccessor,
       titleAccessor,
       tooltipAccessor,
+      onHideOverlay,
     } = this.props
 
     let styledEvents = DayEventLayout.getStyledEvents({
@@ -223,6 +225,7 @@ class DayColumn extends React.Component {
         event,
         continuesPrior: _continuesPrior,
         continuesAfter: _continuesAfter,
+        hideOverlay: onHideOverlay,
       }
 
       return (
