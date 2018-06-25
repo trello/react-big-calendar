@@ -134,7 +134,10 @@ class DraggableEventWrapper extends React.Component {
       children: childrenWithAnchors, // replace original event child with anchor-embellished child
     })
 
-    if (isDragging) hideOverlay()
+    if (isDragging) {
+      // This has to be deferred because it's called in a render
+      setTimeout(hideOverlay, 0)
+    }
 
     return (
       <EventWrapper event={event} allDay={allDay}>
