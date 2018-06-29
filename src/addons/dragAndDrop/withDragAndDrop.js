@@ -66,6 +66,7 @@ export default function withDragAndDrop(
     static propTypes = {
       onEventDrop: PropTypes.func,
       onEventResize: PropTypes.func,
+      onNavigate: PropTypes.func,
       startAccessor: accessor,
       endAccessor: accessor,
       allDayAccessor: accessor,
@@ -90,6 +91,7 @@ export default function withDragAndDrop(
     static childContextTypes = {
       onEventDrop: PropTypes.func,
       onEventResize: PropTypes.func,
+      onNavigate: PropTypes.func,
       startAccessor: accessor,
       endAccessor: accessor,
       step: PropTypes.number,
@@ -99,6 +101,7 @@ export default function withDragAndDrop(
       return {
         onEventDrop: this.props.onEventDrop,
         onEventResize: this.props.onEventResize,
+        onNavigate: this.props.onNavigate,
         startAccessor: this.props.startAccessor,
         endAccessor: this.props.endAccessor,
         step: this.props.step,

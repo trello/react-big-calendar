@@ -46,6 +46,7 @@ class DropWrapper extends React.Component {
   static contextTypes = {
     onEventDrop: PropTypes.func,
     onEventResize: PropTypes.func,
+    onNavigate: PropTypes.func,
     dragDropManager: PropTypes.object,
     startAccessor: accessor,
     endAccessor: accessor,
@@ -202,6 +203,38 @@ function createDropWrapper(type) {
         resourceId: resource,
         allDay: droppedInAllDay,
       })
+    },
+
+    hover(_, monitor, { context }) {
+      const { onNavigate = noop } = context
+      const selectedDate = new Date(_.value)
+      const hoverDay = selectedDate.getDay()
+      if (hoverDay !== this.prevDay) {
+        switch (hoverDay) {
+          case 0: // sunday
+            this.timer = setTimeout(() => {
+              const newDate = dates.startOf(
+                dates.subtract(selectedDate, 1, 'month'),
+                'month'
+              )
+              onNavigate(newDate)
+            }, 1500)
+            break
+          case 6: // saturday
+            this.timer = setTimeout(() => {
+              const newDate = dates.startOf(
+                dates.add(selectedDate, 1, 'month'),
+                'month'
+              )
+              onNavigate(newDate)
+            }, 1500)
+            break
+          default:
+            clearTimeout(this.timer)
+            break
+        }
+      }
+      this.prevDay = hoverDay
     },
   }
 
