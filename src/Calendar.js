@@ -727,6 +727,16 @@ class Calendar extends React.Component {
     getNow: () => new Date(),
   }
 
+  static childContextTypes = {
+    getView: PropTypes.func,
+  }
+
+  getChildContext() {
+    return {
+      getView: this.getView,
+    }
+  }
+
   getViews = () => {
     const views = this.props.views
 

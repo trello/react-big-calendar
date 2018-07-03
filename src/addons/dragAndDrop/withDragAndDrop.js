@@ -132,6 +132,11 @@ export default function withDragAndDrop(
       if (isDragging !== this.state.isDragging) {
         setTimeout(() => this.setState({ isDragging }))
       }
+
+      // Had to add this to support drag across next/prev
+      if (isDragging && this.monitor.didDrop()) {
+        setTimeout(() => this.setState({ isDragging: false }))
+      }
     }
 
     render() {

@@ -8,6 +8,8 @@ import { accessor } from '../../utils/propTypes'
 import { accessor as get } from '../../utils/accessors'
 import dates from '../../utils/dates'
 import BigCalendar from '../../index'
+import moveDate from '../../utils/move'
+import { navigate } from '../../utils/constants'
 
 function getEventDropProps(start, end, dropDate, droppedInAllDay) {
   // Calculate duration between original start and end dates
@@ -52,6 +54,7 @@ class DropWrapper extends React.Component {
     endAccessor: accessor,
     allDayAccessor: accessor,
     step: PropTypes.number,
+    getView: PropTypes.func,
   }
 
   // TODO: this is WIP to retain the drag offset so the
@@ -125,8 +128,18 @@ function createDropWrapper(type) {
     }
   }
 
+  function navigateToNextOrPrev(action, view, selectedDate, navigateFn) {
+    const newDate = moveDate(view, {
+      action,
+      date: selectedDate,
+      today: new Date(),
+    })
+    return setTimeout(() => navigateFn(newDate), 1000)
+  }
+
   const dropTarget = {
     drop(_, monitor, { props, context }) {
+      clearTimeout(this.timer)
       const itemType = monitor.getItemType()
       if (itemType !== 'event') return
 
@@ -206,31 +219,35 @@ function createDropWrapper(type) {
     },
 
     hover(_, monitor, { context }) {
-      const { onNavigate = noop } = context
+      const { onNavigate = noop, getView = noop } = context
       const selectedDate = new Date(_.value)
       const hoverDay = selectedDate.getDay()
+
       if (hoverDay !== this.prevDay) {
+        let ViewComponent = getView()
+
         switch (hoverDay) {
           case 0: // sunday
-            this.timer = setTimeout(() => {
-              const newDate = dates.startOf(
-                dates.subtract(selectedDate, 1, 'month'),
-                'month'
-              )
-              onNavigate(newDate)
-            }, 1500)
+            this.timer = navigateToNextOrPrev(
+              navigate.PREVIOUS,
+              ViewComponent,
+              selectedDate,
+              onNavigate
+            )
+            this.prevDay = null
             break
           case 6: // saturday
-            this.timer = setTimeout(() => {
-              const newDate = dates.startOf(
-                dates.add(selectedDate, 1, 'month'),
-                'month'
-              )
-              onNavigate(newDate)
-            }, 1500)
+            this.timer = navigateToNextOrPrev(
+              navigate.NEXT,
+              ViewComponent,
+              selectedDate,
+              onNavigate
+            )
+            this.prevDay = null
             break
           default:
             clearTimeout(this.timer)
+            this.prevDay = null
             break
         }
       }
