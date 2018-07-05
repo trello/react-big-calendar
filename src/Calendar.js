@@ -728,12 +728,12 @@ class Calendar extends React.Component {
   }
 
   static childContextTypes = {
-    getView: PropTypes.func,
+    onNavigate: PropTypes.func,
   }
 
   getChildContext() {
     return {
-      getView: this.getView,
+      onNavigate: this.handleNavigate,
     }
   }
 

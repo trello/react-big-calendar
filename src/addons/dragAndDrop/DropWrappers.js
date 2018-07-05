@@ -8,7 +8,6 @@ import { accessor } from '../../utils/propTypes'
 import { accessor as get } from '../../utils/accessors'
 import dates from '../../utils/dates'
 import BigCalendar from '../../index'
-import moveDate from '../../utils/move'
 import { navigate } from '../../utils/constants'
 
 function getEventDropProps(start, end, dropDate, droppedInAllDay) {
@@ -54,7 +53,6 @@ class DropWrapper extends React.Component {
     endAccessor: accessor,
     allDayAccessor: accessor,
     step: PropTypes.number,
-    getView: PropTypes.func,
   }
 
   // TODO: this is WIP to retain the drag offset so the
@@ -126,15 +124,6 @@ function createDropWrapper(type) {
       connectDropTarget: connect.dropTarget(),
       isOver: monitor.isOver(),
     }
-  }
-
-  function navigateToNextOrPrev(action, view, selectedDate, navigateFn) {
-    const newDate = moveDate(view, {
-      action,
-      date: selectedDate,
-      today: new Date(),
-    })
-    return setTimeout(() => navigateFn(newDate), 1000)
   }
 
   const dropTarget = {
@@ -219,29 +208,23 @@ function createDropWrapper(type) {
     },
 
     hover(_, monitor, { context }) {
-      const { onNavigate = noop, getView = noop } = context
+      const { onNavigate = noop } = context
       const selectedDate = new Date(_.value)
       const hoverDay = selectedDate.getDay()
 
       if (hoverDay !== this.prevDay) {
-        let ViewComponent = getView()
-
         switch (hoverDay) {
           case 0: // sunday
-            this.timer = navigateToNextOrPrev(
-              navigate.PREVIOUS,
-              ViewComponent,
-              selectedDate,
-              onNavigate
+            this.timer = setTimeout(
+              () => onNavigate(navigate.PREVIOUS, selectedDate),
+              1000
             )
             this.prevDay = null
             break
           case 6: // saturday
-            this.timer = navigateToNextOrPrev(
-              navigate.NEXT,
-              ViewComponent,
-              selectedDate,
-              onNavigate
+            this.timer = setTimeout(
+              () => onNavigate(navigate.NEXT, selectedDate),
+              1000
             )
             this.prevDay = null
             break
