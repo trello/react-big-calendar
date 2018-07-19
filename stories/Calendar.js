@@ -8,8 +8,10 @@ import '../src/less/styles.less'
 import '../src/addons/dragAndDrop/styles.less'
 import demoEvents from '../examples/events'
 import createEvents from './createEvents'
+import tallEvents from '../examples/tallEvents'
 import resources from './resourceEvents'
 import withDragAndDrop from '../src/addons/dragAndDrop'
+import 'react-virtualized/styles.css'
 
 /* eslint-disable react/prop-types */
 
@@ -557,6 +559,22 @@ storiesOf('module.Calendar.week', module)
           showMultiDayTimes
           onEventDrop={action('event dropped')}
           onEventResize={action('event resized')}
+        />
+      </div>
+    )
+  })
+  .add('Infinite Month', () => {
+    return (
+      <div style={{ height: 500 }}>
+        <Calendar
+          popup
+          events={events}
+          views={{
+            infinite_month: true,
+          }}
+          onSelectEvent={action('event selected')}
+          defaultDate={new Date()}
+          defaultView="infinite_month"
         />
       </div>
     )

@@ -106,10 +106,10 @@ class DateContentRow extends React.Component {
     })
   }
 
-  renderDummy = () => {
+  renderDummy = style => {
     let { className, range, renderHeader } = this.props
     return (
-      <div className={className}>
+      <div className={className} style={style}>
         <div className="rbc-row-content">
           {renderHeader && (
             <div className="rbc-row" ref={this.createHeadingRef}>
@@ -151,10 +151,11 @@ class DateContentRow extends React.Component {
       onSelectEnd,
       longPressThreshold,
       hideOverlay,
+      style,
       ...props
     } = this.props
 
-    if (renderForMeasure) return this.renderDummy()
+    if (renderForMeasure) return this.renderDummy(style)
 
     let { first, last } = endOfRange(range)
 
@@ -175,7 +176,7 @@ class DateContentRow extends React.Component {
     while (levels.length < minRows) levels.push([])
 
     return (
-      <div className={className}>
+      <div className={className} style={style}>
         <BackgroundCells
           date={date}
           getNow={getNow}
@@ -189,6 +190,7 @@ class DateContentRow extends React.Component {
           onSelectSlot={this.handleSelectSlot}
           cellWrapperComponent={dateCellWrapperComponent}
           longPressThreshold={longPressThreshold}
+          enableOffRange={false}
         />
 
         <div className="rbc-row-content">
