@@ -1,5 +1,7 @@
 import findIndex from 'lodash/findIndex'
 import dates from './dates'
+import groupBy from 'lodash/groupBy'
+import map from 'lodash/map'
 import { accessor as get } from './accessors'
 
 export function endOfRange(dateRange, unit = 'day') {
@@ -16,13 +18,17 @@ export function eventSegments(
   { startAccessor, endAccessor },
   range
 ) {
+  // how many days
   let slots = dates.diff(first, last, 'day')
+  // find either start of week or start of event, whichever is later
   let start = dates.max(dates.startOf(get(event, startAccessor), 'day'), first)
   let end = dates.min(dates.ceil(get(event, endAccessor), 'day'), last)
 
   let padding = findIndex(range, x => dates.eq(x, start, 'day'))
+  // how wide is the event
   let span = dates.diff(start, end, 'day')
 
+  // clamp event to [1,num_days]
   span = Math.min(span, slots)
   span = Math.max(span, 1)
 
@@ -44,20 +50,62 @@ export function eventLevels(rowSegments, limit = Infinity) {
   for (i = 0; i < rowSegments.length; i++) {
     seg = rowSegments[i]
 
-    for (j = 0; j < levels.length; j++) if (!segsOverlap(seg, levels[j])) break
+    // loop until we find a level with no overlapping events
+    for (j = 0; j < levels.length; j++) {
+      if (!segsOverlap(seg, levels[j])) {
+        break
+      }
+    }
 
+    // extras just contains events that won't fit in existing layers if we
+    // already have the max
     if (j >= limit) {
       extra.push(seg)
     } else {
+      // add a new layer or add the event to the existing layer
       ;(levels[j] || (levels[j] = [])).push(seg)
     }
   }
 
   for (i = 0; i < levels.length; i++) {
+    // sort the events from left to right
     levels[i].sort((a, b) => a.left - b.left) //eslint-disable-line
   }
 
   return { levels, extra }
+}
+
+export function eventLevelsBySpanning(
+  rowSegments,
+  { startAccessor, endAccessor }
+) {
+  const spanning = seg => {
+    const start = dates.startOf(get(seg.event, startAccessor), 'day')
+    const end = dates.ceil(get(seg.event, endAccessor), 'day')
+
+    return dates.diff(end, start, 'day') > 1
+  }
+
+  const notSpanning = seg => !spanning(seg)
+
+  let spanningEvents = rowSegments
+    .filter(spanning)
+    .sort((a, b) => a.left - b.left)
+  spanningEvents = eventLevels(spanningEvents).levels
+
+  let dailyEvents = rowSegments.filter(notSpanning)
+  dailyEvents = groupBy(dailyEvents, seg =>
+    dates.startOf(get(seg.event, startAccessor), 'day')
+  )
+
+  dailyEvents = map(dailyEvents, events =>
+    events.sort((a, b) => a.left - b.left)
+  )
+
+  return {
+    spanningEvents,
+    dailyEvents,
+  }
 }
 
 export function inRange(e, start, end, { startAccessor, endAccessor }) {

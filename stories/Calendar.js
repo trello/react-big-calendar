@@ -107,7 +107,7 @@ const DragableCalendar = props => {
 storiesOf('module.Calendar.week', module)
   .add('demo', () => {
     return (
-      <div style={{ height: 500 }}>
+      <div style={{ height: 750 }}>
         <Calendar
           popup
           events={demoEvents}
@@ -565,15 +565,15 @@ storiesOf('module.Calendar.week', module)
   })
   .add('Infinite Month', () => {
     return (
-      <div style={{ height: 500 }}>
+      <div style={{ height: 750 }}>
         <Calendar
           popup
-          events={events}
+          events={demoEvents}
           views={{
             infinite_month: true,
           }}
           onSelectEvent={action('event selected')}
-          defaultDate={new Date()}
+          defaultDate={new Date(2015, 3, 1)}
           defaultView="infinite_month"
         />
       </div>

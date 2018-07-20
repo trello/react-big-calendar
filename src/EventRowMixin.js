@@ -35,7 +35,7 @@ export default {
     slots: 7,
   },
 
-  renderEvent(props, event) {
+  renderEvent(props, event, key) {
     let {
       eventPropGetter,
       selected,
@@ -57,6 +57,7 @@ export default {
     return (
       <EventCell
         event={event}
+        key={key}
         eventWrapperComponent={eventWrapperComponent}
         eventPropGetter={eventPropGetter}
         onSelect={onSelect}

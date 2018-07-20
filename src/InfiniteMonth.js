@@ -14,7 +14,7 @@ import raf from 'dom-helpers/util/requestAnimationFrame'
 
 import Popup from './Popup'
 import Overlay from 'react-overlays/lib/Overlay'
-import DateContentRow from './DateContentRow'
+import VarHeightDateContentRow from './VarHeightDateContentRow'
 import Header from './Header'
 import DateHeader from './DateHeader'
 
@@ -149,13 +149,6 @@ class InfiniteMonthView extends React.Component {
     this.loadMoreRows({ startIndex: 0, stopIndex: 20 })
     this.loadMoreRows({ startIndex: 5200 - 5, stopIndex: 5200 + 20 })
 
-    // date = july 19
-    // go back 366/2, then go back to the visible day
-    // go forward 366/2, then go forward to last day
-
-    //this._weekCount = weeks.length
-    //this.weeks = weeks
-
     return (
       <div className={cn('rbc-month-view', className)}>
         <div className="rbc-row rbc-month-header">
@@ -176,7 +169,7 @@ class InfiniteMonthView extends React.Component {
                     width={width}
                     height={height}
                     rowCount={10400}
-                    rowHeight={88}
+                    rowHeight={height / 6}
                     rowRenderer={this.renderRow}
                     scrollToIndex={5202}
                     needLimitMeasure={this.state.needLimitMeasure}
@@ -252,8 +245,9 @@ class InfiniteMonthView extends React.Component {
     events = eventsForWeek(events, week[0], week[week.length - 1], this.props)
     events.sort((a, b) => sortEvents(a, b, this.props))
 
+    //const ContentRow = false ? DateContentRow : VarHeightDateContentRow
     return (
-      <DateContentRow
+      <VarHeightDateContentRow
         key={key}
         ref={this.getSlotRowRef(weekIdx)}
         container={this.getContainer}

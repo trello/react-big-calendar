@@ -9,8 +9,14 @@ export default [
   {
     id: 1,
     title: 'Long Event',
-    start: new Date(2015, 3, 7),
-    end: new Date(2015, 3, 10),
+    start: new Date(2015, 3, 9, 11, 0),
+    end: new Date(2015, 3, 9, 12, 0),
+  },
+  {
+    id: 1,
+    title: 'Another Event',
+    start: new Date(2015, 3, 10, 11, 0),
+    end: new Date(2015, 3, 10, 12, 0),
   },
 
   {
@@ -30,6 +36,30 @@ export default [
   {
     id: 4,
     title: 'Some Event',
+    start: new Date(2015, 3, 9, 0, 0, 0),
+    end: new Date(2015, 3, 9, 0, 0, 0),
+  },
+  {
+    id: 4,
+    title: 'Some Event Part 3',
+    start: new Date(2015, 3, 8, 0, 0, 0),
+    end: new Date(2015, 3, 8, 0, 0, 0),
+  },
+  {
+    id: 4,
+    title: 'Some Event Part 2',
+    start: new Date(2015, 3, 9, 0, 0, 0),
+    end: new Date(2015, 3, 9, 0, 0, 0),
+  },
+  {
+    id: 4,
+    title: 'Some Event Part 3',
+    start: new Date(2015, 3, 10, 0, 0, 0),
+    end: new Date(2015, 3, 10, 0, 0, 0),
+  },
+  {
+    id: 4,
+    title: 'Some Event Part 4',
     start: new Date(2015, 3, 9, 0, 0, 0),
     end: new Date(2015, 3, 9, 0, 0, 0),
   },
@@ -86,10 +116,28 @@ export default [
     end: new Date(2015, 3, 18, 2, 0, 0),
   },
   {
+    id: 12,
+    title: 'Fun little event pal that goes on forever',
+    start: new Date(2015, 3, 20, 18, 30, 0),
+    end: new Date(2015, 3, 20, 20, 0, 0),
+  },
+  {
+    id: 12,
+    title: 'Another Fun little event pal that goes on forever',
+    start: new Date(2015, 3, 20, 18, 30, 0),
+    end: new Date(2015, 3, 20, 20, 0, 0),
+  },
+  {
     id: 13,
     title: 'Multi-day Event',
     start: new Date(2015, 3, 20, 19, 30, 0),
     end: new Date(2015, 3, 22, 2, 0, 0),
+  },
+  {
+    id: 13,
+    title: 'Multi-day Event 2',
+    start: new Date(2015, 3, 21, 19, 30, 0),
+    end: new Date(2015, 3, 23, 2, 0, 0),
   },
   {
     id: 14,
