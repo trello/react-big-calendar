@@ -1,22 +1,21 @@
-import dates from '../utils/dates'
-import { set } from '../formats'
-import { set as setLocalizer } from '../localizer'
+import * as dates from '../utils/dates'
+import { DateLocalizer } from '../localizer'
 
 let dateRangeFormat = ({ start, end }, culture, local) =>
-  local.format(start, 'd', culture) + ' — ' + local.format(end, 'd', culture)
+  local.format(start, 'd', culture) + ' – ' + local.format(end, 'd', culture)
 
 let timeRangeFormat = ({ start, end }, culture, local) =>
-  local.format(start, 't', culture) + ' — ' + local.format(end, 't', culture)
+  local.format(start, 't', culture) + ' – ' + local.format(end, 't', culture)
 
-let timeRangeStartFormat = ({ start, end }, culture, local) =>
-  local.format(start, 't', culture) + ' — '
+let timeRangeStartFormat = ({ start }, culture, local) =>
+  local.format(start, 't', culture) + ' – '
 
-let timeRangeEndFormat = ({ start, end }, culture, local) =>
-  ' — ' + local.format(end, 't', culture)
+let timeRangeEndFormat = ({ end }, culture, local) =>
+  ' – ' + local.format(end, 't', culture)
 
 let weekRangeFormat = ({ start, end }, culture, local) =>
   local.format(start, 'MMM dd', culture) +
-  ' - ' +
+  ' – ' +
   local.format(end, dates.eq(start, end, 'month') ? 'dd' : 'MMM dd', culture)
 
 export let formats = {
@@ -51,15 +50,9 @@ export default function(globalize) {
     return (culture && culture.calendar.firstDay) || 0
   }
 
-  set(formats)
-
-  return setLocalizer({
+  return new DateLocalizer({
     firstOfWeek,
-
-    parse(value, format, culture) {
-      return globalize.parseDate(value, format, culture)
-    },
-
+    formats,
     format(value, format, culture) {
       return globalize.format(value, format, culture)
     },

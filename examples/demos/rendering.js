@@ -1,5 +1,5 @@
 import React from 'react'
-import BigCalendar from 'react-big-calendar'
+import { Calendar, Views } from 'react-big-calendar'
 import events from '../events'
 
 function Event({ event }) {
@@ -39,11 +39,12 @@ const customSlotPropGetter = date => {
   else return {}
 }
 
-let Rendering = () => (
-  <BigCalendar
+let Rendering = ({ localizer }) => (
+  <Calendar
     events={events}
+    localizer={localizer}
     defaultDate={new Date(2015, 3, 1)}
-    defaultView="agenda"
+    defaultView={Views.AGENDA}
     dayPropGetter={customDayPropGetter}
     slotPropGetter={customSlotPropGetter}
     components={{
